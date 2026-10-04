@@ -19,6 +19,7 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
+        GameState.ChangeGameState(EState.Menu);
 
         base.Initialize();
     }
@@ -32,10 +33,34 @@ public class Game1 : Game
 
     protected override void Update(GameTime gameTime)
     {
+        // Escape pauses Game. If already paused: resume game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
+        {
+            if(GameState.CurrentGameState != EState.Paused && GameState.CurrentGameState != EState.Menu)
+            {
+                GameState.ChangeGameState(EState.Paused);
+            }
+            else if(GameState.CurrentGameState == EState.Paused)
+            {
+                GameState.ChangeGameState(EState.Running);
+            }
+        }
 
-        // TODO: Add your update logic here
+        switch(GameState.CurrentGameState)
+        {
+            case EState.Menu:
+                //TODO: Menu Logic
+                break;
+            case EState.Running:
+                //TODO: Running Logic
+                break;
+            case EState.Paused:
+                //TODO: Paused Logic
+                break;
+            case EState.Halted:
+                //TODO: Halted Logic
+                break;
+        }
 
         base.Update(gameTime);
     }
@@ -44,7 +69,21 @@ public class Game1 : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        switch(GameState.CurrentGameState)
+        {
+            case EState.Menu:
+                //TODO: Menu Drawing-Logic
+                break;
+            case EState.Running:
+                //TODO: Running Drawing-Logic
+                break;
+            case EState.Paused:
+                //TODO: Paused Drawing-Logic
+                break;
+            case EState.Halted:
+                //TODO: Halted Drawing-Logic
+                break;
+        }
 
         base.Draw(gameTime);
     }
