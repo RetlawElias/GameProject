@@ -2,11 +2,21 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
+using MonoGameLibrary.Graphics;
 
 namespace Game_Project;
 
 public class Game1 : Core
 {
+
+    private int[,] _map =
+    {
+        { 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 1, 1, 0, 0 },
+        { 0, 1, 1, 1, 1, 0 },
+        { 0, 0, 1, 1, 0, 0 },
+        { 0, 0, 0, 0, 0, 0 },
+    };
     
     public Game1() : base("Game Project", 1280, 720, false)
     {
@@ -26,6 +36,14 @@ public class Game1 : Core
 
     protected override void LoadContent()
     {
+
+        TextureAtlas sprites = TextureAtlas.FromFile(Content, "images/sprites.xml");
+
+        Sprite grassSlab = sprites.CreateSprite("grass-slab");
+        grassSlab.Origin = new Vector2(grassSlab.Region.Width * 0.5f, 0);
+        
+
+
         Debug.DebugFont = Content.Load<SpriteFont>("DebugFont");
 
         // TODO: use this.Content to load your game content here
