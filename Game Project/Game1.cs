@@ -101,16 +101,7 @@ public class Game1 : Core
 
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
-        Debug.WriteDebugInfo(
-            SpriteBatch,
-            "RenderFrame: " + Debug.RenderFrame +
-            "\nUpdateFrame: " + Debug.UpdateFrame + 
-            "\nGameState: " + GameState.CurrentGameState.ToString()
-        );
-
-
-        switch(GameState.CurrentGameState)
+        switch (GameState.CurrentGameState)
         {
             case EState.Menu:
                 //TODO: Menu Drawing-Logic
@@ -138,13 +129,20 @@ public class Game1 : Core
 
                 break;
             case EState.Paused:
-                
+
                 //TODO: Paused Drawing-Logic
                 break;
             case EState.Halted:
                 //TODO: Halted Drawing-Logic
                 break;
         }
+        
+        Debug.WriteDebugInfo(
+            SpriteBatch,
+            "RenderFrame: " + Debug.RenderFrame +
+            "\nUpdateFrame: " + Debug.UpdateFrame + 
+            "\nGameState: " + GameState.CurrentGameState.ToString()
+        );
 
         base.Draw(gameTime);
     }
