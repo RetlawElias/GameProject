@@ -34,9 +34,6 @@
 /processorParam:Version=3.8.5.1
 /build:images/spritesheet.png
 
-#begin spritesheet-definition.xml
-/importer:XmlImporter
-/processor:PassThroughProcessor
-/processorParam:Version=3.8.5.1
-/build:spritesheet-definition.xml
+#begin images/sprites.xml
+/copy:images/sprites.xml
 

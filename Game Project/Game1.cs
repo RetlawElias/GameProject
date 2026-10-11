@@ -1,25 +1,20 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGameLibrary;
 
 namespace Game_Project;
 
-public class Game1 : Game
+public class Game1 : Core
 {
-    private GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch;
-
     
+    public Game1() : base("Game Project", 1280, 720, false)
+    {
+
+    }
+
     public int SingleInputIterator = 0;
 
-
-    public Game1()
-    {
-        _graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
-        
-    }
 
     protected override void Initialize()
     {
@@ -31,7 +26,6 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
         Debug.DebugFont = Content.Load<SpriteFont>("DebugFont");
 
         // TODO: use this.Content to load your game content here
@@ -87,7 +81,7 @@ public class Game1 : Game
 
 
         Debug.WriteDebugInfo(
-            _spriteBatch,
+            SpriteBatch,
             "RenderFrame: " + Debug.RenderFrame +
             "\nUpdateFrame: " + Debug.UpdateFrame + 
             "\nGameState: " + GameState.CurrentGameState.ToString()

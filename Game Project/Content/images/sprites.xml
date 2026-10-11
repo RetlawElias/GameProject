@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+    <Texture>images/spritesheet</Texture>
+    <Regions>
+        <Region name="grass-slab" x="0" y="0" width="64" height="64" />
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>

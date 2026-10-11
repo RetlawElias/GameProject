@@ -8,7 +8,7 @@
         "name": "C#: Game_Project Debug",
         "type": "dotnet",
         "request": "launch",
-        "projectPath": "${workspaceFolder}/Game_Project.csproj"
+        "projectPath": "${workspaceFolder}/Game Project/Game Project.csproj"
       }
     ],
   }

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Liest die MonoGame-Version aus der .csproj und installiert den passenden Mac-Editor
-VERSION=$(grep -o 'MonoGame.Framework.DesktopGL" Version="[^"]*' *.csproj | sed 's/.*Version="//')
+VERSION=$(grep -o 'MonoGame.Framework.DesktopGL" Version="[^"]*' "Game Project/Game Project.csproj" | sed 's/.*Version="//')
 echo "MonoGame-Version: $VERSION"
 
 dotnet tool restore
