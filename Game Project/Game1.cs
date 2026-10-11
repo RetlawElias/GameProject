@@ -17,6 +17,8 @@ public class Game1 : Core
         { 0, 0, 1, 1, 0, 0 },
         { 0, 0, 0, 0, 0, 0 },
     };
+
+    private Sprite _grassSlab;
     
     public Game1() : base("Game Project", 1280, 720, false)
     {
@@ -39,8 +41,8 @@ public class Game1 : Core
 
         TextureAtlas sprites = TextureAtlas.FromFile(Content, "images/sprites.xml");
 
-        Sprite grassSlab = sprites.CreateSprite("grass-slab");
-        grassSlab.Origin = new Vector2(grassSlab.Region.Width * 0.5f, 0);
+        _grassSlab = sprites.CreateSprite("grass-slab");
+        _grassSlab.Origin = new Vector2(_grassSlab.Region.Width * 0.5f, 0);
         
 
 
@@ -79,6 +81,8 @@ public class Game1 : Core
                 break;
             case EState.Running:
                 //TODO: Running Logic
+
+
                 break;
             case EState.Paused:
                 //TODO: Paused Logic
@@ -113,6 +117,25 @@ public class Game1 : Core
                 break;
             case EState.Running:
                 //TODO: Running Drawing-Logic
+
+                Vector2 offset = new Vector2(640, 150);
+
+                SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+                for (int row = 0; row < _map.GetLength(0); row++)
+                {
+                    for (int col = 0; col < _map.GetLength(1); col++)
+                    {
+                        if (_map[row, col] == 0)
+                        {
+                            Vector2 pos = Iso.WorldToScreen(new Vector2(col, row)) + offset;
+                            _grassSlab.Draw(SpriteBatch, pos);
+                        }
+                    }
+                }
+
+                SpriteBatch.End();
+
                 break;
             case EState.Paused:
                 
