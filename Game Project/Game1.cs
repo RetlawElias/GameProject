@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
@@ -19,6 +20,11 @@ public class Game1 : Core
     };
 
     private Sprite _grassSlab;
+    private Point _hoveredTile;
+
+    private Vector2 _mousePos;
+
+    private Vector2 _offset = new Vector2(640, 150);
     
     public Game1() : base("Game Project", 1280, 720, false)
     {
@@ -81,7 +87,9 @@ public class Game1 : Core
                 break;
             case EState.Running:
                 //TODO: Running Logic
-
+                _mousePos = Mouse.GetState().Position.ToVector2() - _offset;
+                _mousePos = Iso.ScreenToWorld(_mousePos);
+                _hoveredTile = new Point((int)MathF.Floor(_mousePos.X), (int)MathF.Floor(_mousePos.Y));
 
                 break;
             case EState.Paused:
@@ -109,8 +117,6 @@ public class Game1 : Core
             case EState.Running:
                 //TODO: Running Drawing-Logic
 
-                Vector2 offset = new Vector2(640, 150);
-
                 SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
                 for (int row = 0; row < _map.GetLength(0); row++)
@@ -119,8 +125,11 @@ public class Game1 : Core
                     {
                         if (_map[row, col] == 0)
                         {
-                            Vector2 pos = Iso.WorldToScreen(new Vector2(col, row)) + offset;
+                            Vector2 pos = Iso.WorldToScreen(new Vector2(col, row)) + _offset;
+                            _grassSlab.Color = (col == _hoveredTile.X && row == _hoveredTile.Y) ? Color.Gray : Color.White;
                             _grassSlab.Draw(SpriteBatch, pos);
+                            
+                            
                         }
                     }
                 }
@@ -140,8 +149,9 @@ public class Game1 : Core
         Debug.WriteDebugInfo(
             SpriteBatch,
             "RenderFrame: " + Debug.RenderFrame +
-            "\nUpdateFrame: " + Debug.UpdateFrame + 
-            "\nGameState: " + GameState.CurrentGameState.ToString()
+            "\nUpdateFrame: " + Debug.UpdateFrame +
+            "\nGameState: " + GameState.CurrentGameState.ToString() + 
+            "\nTile: " + _hoveredTile
         );
 
         base.Draw(gameTime);
