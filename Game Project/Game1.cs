@@ -9,6 +9,10 @@ namespace Game_Project;
 
 public class Game1 : Core
 {
+    public Game1() : base("Game Project", 1280, 720, false)
+    {
+
+    }
 
     private int[,] _map =
     {
@@ -23,14 +27,8 @@ public class Game1 : Core
     private Point _hoveredTile;
 
     private Vector2 _mousePos;
-
-    private Vector2 _offset = new Vector2(640, 150);
+    private Camera2D _camera;
     
-    public Game1() : base("Game Project", 1280, 720, false)
-    {
-
-    }
-
     public int SingleInputIterator = 0;
 
 
@@ -49,7 +47,8 @@ public class Game1 : Core
 
         _grassSlab = sprites.CreateSprite("grass-slab");
         _grassSlab.Origin = new Vector2(_grassSlab.Region.Width * 0.5f, 0);
-        
+        _camera = new Camera2D(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+        _camera.Position = Iso.WorldToScreen(new Vector2(3, 2.5f));
 
 
         Debug.DebugFont = Content.Load<SpriteFont>("DebugFont");
@@ -87,7 +86,7 @@ public class Game1 : Core
                 break;
             case EState.Running:
                 //TODO: Running Logic
-                _mousePos = Mouse.GetState().Position.ToVector2() - _offset;
+                _mousePos = _camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
                 _mousePos = Iso.ScreenToWorld(_mousePos);
                 _hoveredTile = new Point((int)MathF.Floor(_mousePos.X), (int)MathF.Floor(_mousePos.Y));
 
@@ -117,7 +116,7 @@ public class Game1 : Core
             case EState.Running:
                 //TODO: Running Drawing-Logic
 
-                SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                SpriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _camera.Transform);
 
                 for (int row = 0; row < _map.GetLength(0); row++)
                 {
@@ -125,7 +124,7 @@ public class Game1 : Core
                     {
                         if (_map[row, col] == 0)
                         {
-                            Vector2 pos = Iso.WorldToScreen(new Vector2(col, row)) + _offset;
+                            Vector2 pos = Iso.WorldToScreen(new Vector2(col, row));
                             _grassSlab.Color = (col == _hoveredTile.X && row == _hoveredTile.Y) ? Color.Gray : Color.White;
                             _grassSlab.Draw(SpriteBatch, pos);
                             
