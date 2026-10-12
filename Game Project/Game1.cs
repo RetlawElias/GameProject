@@ -28,8 +28,10 @@ public class Game1 : Core
 
     private Vector2 _mousePos;
     private Camera2D _camera;
-    
+
     public int SingleInputIterator = 0;
+
+    private Vector2 _cameraTarget;
 
 
     protected override void Initialize()
@@ -47,6 +49,9 @@ public class Game1 : Core
 
         _grassSlab = sprites.CreateSprite("grass-slab");
         _grassSlab.Origin = new Vector2(_grassSlab.Region.Width * 0.5f, 0);
+
+        _cameraTarget = Iso.WorldToScreen(new Vector2(3, 2.5f));
+
         _camera = new Camera2D(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         _camera.Position = Iso.WorldToScreen(new Vector2(3, 2.5f));
 
@@ -86,6 +91,19 @@ public class Game1 : Core
                 break;
             case EState.Running:
                 //TODO: Running Logic
+
+                float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+                KeyboardState keyboard = Keyboard.GetState();
+
+                float panSpeed = 300f;
+
+                if (keyboard.IsKeyDown(Keys.W)) _cameraTarget.Y -= panSpeed * dt;
+                if (keyboard.IsKeyDown(Keys.S)) _cameraTarget.Y += panSpeed * dt;
+                if (keyboard.IsKeyDown(Keys.A)) _cameraTarget.X -= panSpeed * dt;
+                if (keyboard.IsKeyDown(Keys.D)) _cameraTarget.X += panSpeed * dt;
+
+                _camera.Follow(_cameraTarget, dt);
+
                 _mousePos = _camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
                 _mousePos = Iso.ScreenToWorld(_mousePos);
                 _hoveredTile = new Point((int)MathF.Floor(_mousePos.X), (int)MathF.Floor(_mousePos.Y));
